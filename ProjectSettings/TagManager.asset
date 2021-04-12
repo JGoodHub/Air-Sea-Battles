@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 4188252239
+    locked: 0
+  - name: Guns
+    uniqueID: 3589567463
+    locked: 0
+  - name: Aircraft
+    uniqueID: 2263930797
+    locked: 0
+  - name: Effects
+    uniqueID: 1780341055
+    locked: 0
