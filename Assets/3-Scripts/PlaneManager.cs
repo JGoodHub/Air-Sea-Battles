@@ -5,8 +5,12 @@ using UnityEngine;
 public class PlaneManager : Singleton<PlaneManager>
 {
 
+    public delegate void WaveEvent();
+    public event WaveEvent OnWaveStarted;
+    public event WaveEvent OnWaveComplete;
+
     public PlaneBehaviour[] planePool;
-    public int poolIndex;
+    private Queue<PlaneBehaviour> sleepingPlanes;
 
     [Range(1, 8)] public int planesSpawnCountMin;
     [Range(1, 8)] public int planesSpawnCountMax;
@@ -14,7 +18,7 @@ public class PlaneManager : Singleton<PlaneManager>
     public float speed;
     public float waveDelay;
 
-    private int planesAlive;
+    private int planesAlive = -1;
 
     private void OnValidate()
     {
@@ -31,32 +35,48 @@ public class PlaneManager : Singleton<PlaneManager>
 
     private void Start()
     {
-        SpawnWave();
+        sleepingPlanes = new Queue<PlaneBehaviour>();
+        for (int i = 0; i < planePool.Length; i++)
+        {
+            planePool[i].OnPlaneDestroyed += (plane) =>
+            {
+                planesAlive--;
+                sleepingPlanes.Enqueue(plane);
+            };
+
+            sleepingPlanes.Enqueue(planePool[i]);
+        }
+
+        Invoke("SpawnWave", waveDelay);
+    }
+
+    private void Update()
+    {
+        if (planesAlive == 0)
+        {
+            OnWaveComplete?.Invoke();
+            planesAlive = -1;
+
+            Invoke("SpawnWave", waveDelay);
+        }
     }
 
     public void SpawnWave()
     {
-        int planesCount = Random.Range(planesSpawnCountMin, planesSpawnCountMax);
+        int planesCount = Random.Range(planesSpawnCountMin, planesSpawnCountMax + 1);
 
         for (int p = 0; p < planesCount; p++)
         {
-            planePool[poolIndex].active = true;
-            planePool[poolIndex].SetSpeed(speed);
-            planePool[poolIndex].SetLevel(8 - p);
-            planePool[poolIndex].ResetHorizontal();
+            PlaneBehaviour plane = sleepingPlanes.Dequeue();
+            plane.Awaken();
 
-            poolIndex = (poolIndex + 1) % planePool.Length;
+            plane.SetSpeed(speed);
+            plane.SetLevel(8 - p);
         }
-    }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawRay(new Vector3(BoundsHelper.Instance.Left, -25, 0), Vector3.up * 50);
+        planesAlive = planesCount;
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(new Vector3(BoundsHelper.Instance.Right, -25, 0), Vector3.up * 50);
-
+        OnWaveStarted?.Invoke();
     }
 
 }

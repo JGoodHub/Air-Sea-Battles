@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class PlaneBehaviour : MonoBehaviour
 {
+    public delegate void PlaneEvent(PlaneBehaviour sender);
+    public event PlaneEvent OnPlaneDestroyed;
 
-    public bool active = false;
+    private bool awake = false;
     private float speed;
+    private int maxHealth = 1;
     private int health = 1;
-
-    public BoundsHelper cameraBehaviour;
 
     private void Update()
     {
-        if (active)
+        if (awake)
         {
             transform.position += Vector3.right * speed * Time.deltaTime;
 
@@ -38,4 +39,29 @@ public class PlaneBehaviour : MonoBehaviour
     {
         transform.position = new Vector3(BoundsHelper.Instance.Left, transform.position.y, transform.position.z);
     }
+
+    public void Damage(int amount)
+    {
+        health -= amount;
+
+        if (health <= 0)
+        {
+            OnPlaneDestroyed?.Invoke(this);
+            Sleep();
+        }
+    }
+
+    public void Awaken()
+    {
+        awake = true;
+        health = maxHealth;
+        ResetHorizontal();
+    }
+
+    public void Sleep()
+    {
+        awake = false;
+        transform.position = Vector3.down * 10f;
+    }
+
 }

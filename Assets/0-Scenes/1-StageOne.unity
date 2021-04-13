@@ -145,7 +145,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9523511}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 13.15, y: -0.38, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 830649868}
@@ -164,8 +164,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dying: 0
-  offset: {x: 0, y: 4.7}
-  size: {x: 15.5, y: 9.35}
+  offset: {x: 0, y: 4.47}
+  size: {x: 14.8, y: 8.94}
 --- !u!1 &232737722
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,7 +411,6 @@ GameObject:
   - component: {fileID: 634665029}
   - component: {fileID: 634665028}
   - component: {fileID: 634665027}
-  - component: {fileID: 634665030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -484,21 +483,6 @@ Transform:
   m_Father: {fileID: 2106767400}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &634665030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 634665026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0abc0bda261f31428de4f3de081a051, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dying: 0
-  offset: {x: 0, y: 0}
-  size: {x: 0, y: 0}
 --- !u!1001 &708930491
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -570,7 +554,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraBehaviour
       value: 
-      objectReference: {fileID: 634665030}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a43af8ed66795fe4b91fa2159e2a7c09, type: 3}
 --- !u!4 &708930492 stripped
@@ -697,7 +681,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraBehaviour
       value: 
-      objectReference: {fileID: 634665030}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a43af8ed66795fe4b91fa2159e2a7c09, type: 3}
 --- !u!4 &815311392 stripped
@@ -993,7 +977,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraBehaviour
       value: 
-      objectReference: {fileID: 634665030}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a43af8ed66795fe4b91fa2159e2a7c09, type: 3}
 --- !u!4 &1376239486 stripped
@@ -1164,7 +1148,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraBehaviour
       value: 
-      objectReference: {fileID: 634665030}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a43af8ed66795fe4b91fa2159e2a7c09, type: 3}
 --- !u!4 &1492404351 stripped
@@ -1235,8 +1219,6 @@ MonoBehaviour:
   - {fileID: 2011439634}
   - {fileID: 1828606998}
   - {fileID: 1982378500}
-  poolIndex: 0
-  maxProjectilesOnScreen: 5
   projectileSpeed: 5
 --- !u!1 &1521764702
 GameObject:
@@ -1320,10 +1302,9 @@ MonoBehaviour:
   - {fileID: 815311393}
   - {fileID: 1376239487}
   - {fileID: 708930493}
-  poolIndex: 0
   planesSpawnCountMin: 3
   planesSpawnCountMax: 5
-  speed: 2.5
+  speed: 2
   waveDelay: 2
 --- !u!1001 &1828606996
 PrefabInstance:
@@ -1836,7 +1817,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraBehaviour
       value: 
-      objectReference: {fileID: 634665030}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a43af8ed66795fe4b91fa2159e2a7c09, type: 3}
 --- !u!4 &3868174516431623978 stripped

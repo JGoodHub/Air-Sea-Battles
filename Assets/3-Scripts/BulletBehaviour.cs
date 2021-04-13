@@ -5,18 +5,16 @@ using UnityEngine;
 
 public class BulletBehaviour : MonoBehaviour
 {
+    public delegate void BulletEvent(BulletBehaviour sender);
+    public event BulletEvent OnBulletDestroyed;
 
-    public bool active = false;
+    private bool awake = false;
 
     private Vector2 direction;
     private float speed;
     private bool visiblity;
 
     private Vector2 lastUpdatePosition;
-    private bool lastUpdateVisibility;
-
-    public delegate void BulletOutsideScreen(BulletBehaviour sender);
-    public event BulletOutsideScreen OnBulletOutsideScreen;
 
     public void SetDirectionAndSpeed(Vector2 direction, float speed)
     {
@@ -26,7 +24,7 @@ public class BulletBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if (active)
+        if (awake)
         {
             transform.position += (Vector3)(direction * speed * Time.deltaTime);
 
@@ -35,21 +33,38 @@ public class BulletBehaviour : MonoBehaviour
 
             if (rayHit.collider != null)
             {
-                Destroy(gameObject);
+                PlaneBehaviour plane = rayHit.collider.GetComponent<PlaneBehaviour>();
+
+                if (plane != null)
+                {
+                    plane.Damage(1);
+
+                    OnBulletDestroyed?.Invoke(this);
+                    Sleep();
+                }
             }
 
             visiblity = BoundsHelper.Instance.IsPointInBounds(transform.position);
 
-            if (visiblity == false && lastUpdateVisibility == true)
+            if (visiblity == false)
             {
-                OnBulletOutsideScreen?.Invoke(this);
+                OnBulletDestroyed?.Invoke(this);
+                Sleep();
             }
 
             lastUpdatePosition = transform.position;
-            lastUpdateVisibility = visiblity;
         }
     }
 
+    public void Awaken()
+    {
+        awake = true;
+    }
 
+    public void Sleep()
+    {
+        awake = false;
+        transform.position = Vector3.down * 5f;
+    }
 
 }

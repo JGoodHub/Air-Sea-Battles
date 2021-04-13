@@ -5,47 +5,37 @@ using UnityEngine;
 public class BulletManager : Singleton<BulletManager>
 {
 
+    private Queue<BulletBehaviour> sleepingBullets;
     public BulletBehaviour[] bulletPool;
-    public int poolIndex;
-
-    public int maxProjectilesOnScreen;
-    private int projectilesOnScreen;
 
     public float projectileSpeed;
 
-    private void OnValidate()
-    {
-        maxProjectilesOnScreen = Mathf.Clamp(maxProjectilesOnScreen, 0, int.MaxValue);
-
-        if (bulletPool != null && bulletPool.Length < maxProjectilesOnScreen)
-        {
-            Debug.LogWarning("Warning: Your bullet pool is not big enough to support the max number of bullets on screen at once, consider increasing your pool size");
-        }
-    }
-
     private void Start()
     {
-        for (int b = 0; b < bulletPool.Length; b++)
+        sleepingBullets = new Queue<BulletBehaviour>();
+        for (int i = 0; i < bulletPool.Length; i++)
         {
-            bulletPool[b].OnBulletOutsideScreen += ResetBullet;
+            bulletPool[i].OnBulletDestroyed += (bullet) =>
+            {
+                sleepingBullets.Enqueue(bullet);
+            };
+
+            sleepingBullets.Enqueue(bulletPool[i]);
         }
     }
 
     public bool FireBullet(Vector2 origin, Vector2 direction)
     {
-        poolIndex = (poolIndex + 1) % bulletPool.Length;
+        if (sleepingBullets.Count == 0)
+            return false;
 
-        bulletPool[poolIndex].SetDirectionAndSpeed(direction, projectileSpeed);
-        bulletPool[poolIndex].transform.position = origin;
-        bulletPool[poolIndex].active = true;
+        BulletBehaviour bullet = sleepingBullets.Dequeue();
+
+        bullet.Awaken();
+        bullet.SetDirectionAndSpeed(direction, projectileSpeed);
+        bullet.transform.position = origin;
 
         return true;
-    }
-
-    private void ResetBullet(BulletBehaviour bullet)
-    {
-        bullet.active = false;
-        bullet.transform.position = Vector3.down * 10f;
     }
 
 }
