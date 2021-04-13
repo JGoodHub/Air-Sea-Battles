@@ -19,7 +19,7 @@ public class BulletManager : Singleton<BulletManager>
 
         if (bulletPool != null && bulletPool.Length < maxProjectilesOnScreen)
         {
-            Debug.LogWarning("Warning: Your projectile pool is not big enough to support the max number of bullets on screen at once, consider increasing your pool size");
+            Debug.LogWarning("Warning: Your bullet pool is not big enough to support the max number of bullets on screen at once, consider increasing your pool size");
         }
     }
 
