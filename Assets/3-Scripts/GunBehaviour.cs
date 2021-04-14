@@ -27,9 +27,7 @@ public class GunBehaviour : MonoBehaviour
 
     [Range(0.05f, 0.95f)] public float relativePosition;
 
-    public float bulletOriginOffset;
-
-    [Header("Sprite Setups")]
+    [Header("Sprites")]
 
     public SpriteRenderer gunSpriteRen;
 
@@ -39,8 +37,20 @@ public class GunBehaviour : MonoBehaviour
     public AimingSetup aimMiddleSetup;
     public AimingSetup aimDownSetup;
 
+    [Header("Shooting")]
+
+    public float bulletOriginOffset;
+    public float fireInterval;
+    private float fireCooldown;
 
     private Vector2 gunDirection;
+    private bool gunLocked;
+
+
+    private void OnValidate()
+    {
+        fireInterval = Mathf.Clamp(fireInterval, 0, float.MaxValue);
+    }
 
     // Position the gun at the quarter mark
     private void Start()
@@ -55,27 +65,39 @@ public class GunBehaviour : MonoBehaviour
         aimUpSetup.angleDirection = RotateVector2(Vector2.right, aimUpSetup.angle, Vector2.zero).normalized;
         aimMiddleSetup.angleDirection = RotateVector2(Vector2.right, aimMiddleSetup.angle, Vector2.zero).normalized;
         aimDownSetup.angleDirection = RotateVector2(Vector2.right, aimDownSetup.angle, Vector2.zero).normalized;
+
+        TimeManager.Instance.OnTimerExpired += (timer, seconds) =>
+        {
+            gunLocked = true;
+        };
     }
 
     // Poll for the aim and fire input events
     private void Update()
     {
-        if (Input.GetButton("Aim Up"))
-        {
-            SetGunAngle(AngleState.UP);
-        }
-        else if (Input.GetButton("Aim Down"))
-        {
-            SetGunAngle(AngleState.DOWN);
-        }
-        else
-        {
-            SetGunAngle(AngleState.MIDDLE);
-        }
+        fireCooldown -= Time.deltaTime;
 
-        if (Input.GetButtonDown("Fire"))
+        if (gunLocked == false)
         {
-            FireBullet();
+            if (Input.GetButton("Aim Up"))
+            {
+                SetGunAngle(AngleState.UP);
+            }
+            else if (Input.GetButton("Aim Down"))
+            {
+                SetGunAngle(AngleState.DOWN);
+            }
+            else
+            {
+                SetGunAngle(AngleState.MIDDLE);
+            }
+
+            if (fireCooldown <= 0 && Input.GetButtonDown("Fire"))
+            {
+                FireBullet();
+
+                fireCooldown = fireInterval;
+            }
         }
     }
 

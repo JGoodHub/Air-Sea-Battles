@@ -46,8 +46,9 @@ public class PlaneBehaviour : MonoBehaviour
 
         if (health <= 0)
         {
-            OnPlaneDestroyed?.Invoke(this);
             Sleep();
+
+            OnPlaneDestroyed?.Invoke(this);
         }
     }
 

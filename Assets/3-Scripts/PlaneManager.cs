@@ -42,23 +42,19 @@ public class PlaneManager : Singleton<PlaneManager>
             {
                 planesAlive--;
                 sleepingPlanes.Enqueue(plane);
+
+                if (planesAlive == 0)
+                {
+                    OnWaveComplete?.Invoke();
+
+                    Invoke("SpawnWave", waveDelay);
+                }
             };
 
             sleepingPlanes.Enqueue(planePool[i]);
         }
 
         Invoke("SpawnWave", waveDelay);
-    }
-
-    private void Update()
-    {
-        if (planesAlive == 0)
-        {
-            OnWaveComplete?.Invoke();
-            planesAlive = -1;
-
-            Invoke("SpawnWave", waveDelay);
-        }
     }
 
     public void SpawnWave()

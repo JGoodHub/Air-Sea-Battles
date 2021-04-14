@@ -16,8 +16,11 @@ public class BulletBehaviour : MonoBehaviour
 
     private Vector2 lastUpdatePosition;
 
-    public void SetDirectionAndSpeed(Vector2 direction, float speed)
+    public void Initalise(Vector2 origin, Vector2 direction, float speed)
     {
+        transform.position = origin;
+        lastUpdatePosition = transform.position;
+
         this.direction = direction;
         this.speed = speed;
     }
@@ -39,8 +42,9 @@ public class BulletBehaviour : MonoBehaviour
                 {
                     plane.Damage(1);
 
-                    OnBulletDestroyed?.Invoke(this);
                     Sleep();
+                    OnBulletDestroyed?.Invoke(this);
+                    return;
                 }
             }
 

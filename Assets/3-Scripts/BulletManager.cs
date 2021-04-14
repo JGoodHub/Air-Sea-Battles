@@ -32,8 +32,7 @@ public class BulletManager : Singleton<BulletManager>
         BulletBehaviour bullet = sleepingBullets.Dequeue();
 
         bullet.Awaken();
-        bullet.SetDirectionAndSpeed(direction, projectileSpeed);
-        bullet.transform.position = origin;
+        bullet.Initalise(origin, direction, projectileSpeed);
 
         return true;
     }
