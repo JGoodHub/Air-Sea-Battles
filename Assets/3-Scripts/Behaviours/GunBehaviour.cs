@@ -24,10 +24,6 @@ public class GunBehaviour : MonoBehaviour
 
     public Color gunColor;
 
-    [Header("Positioning")]
-
-    [Range(0.05f, 0.95f)] public float relativePosition;
-
     [Header("Sprites")]
 
     public SpriteRenderer gunSpriteRen;
@@ -63,9 +59,6 @@ public class GunBehaviour : MonoBehaviour
         Debug.Assert(aimUpSetup.sprite != null && aimMiddleSetup.sprite != null && aimDownSetup.sprite != null, "Not all angle sprites have been set");
 
         gunSpriteRen.color = gunColor;
-
-        Vector2 cameraWorldSize = Camera.main.ViewportToWorldPoint(Vector2.one) - Camera.main.ViewportToWorldPoint(Vector2.zero);
-        transform.position = new Vector3((-cameraWorldSize.x / 2) + (cameraWorldSize.x * relativePosition), 0f, 0f);
 
         aimUpSetup.angleDirection = RotateVector2(Vector2.right, aimUpSetup.angle, Vector2.zero).normalized;
         aimMiddleSetup.angleDirection = RotateVector2(Vector2.right, aimMiddleSetup.angle, Vector2.zero).normalized;

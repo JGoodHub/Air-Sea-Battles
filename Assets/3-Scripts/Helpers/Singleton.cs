@@ -52,7 +52,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         else if (instance != this)
         {
             Debug.Log($"Instance of Singleton |{typeof(T)}| already exists, destroying this copy '{gameObject.name}'", gameObject);
-            Destroy(gameObject);
+            DestroyImmediate(gameObject);
             dying = true;
         }
     }

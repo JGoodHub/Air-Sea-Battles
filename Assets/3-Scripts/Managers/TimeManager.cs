@@ -9,10 +9,14 @@ public class TimeManager : Singleton<TimeManager>
     public event TimeEvent OnTimerTick;
     public event TimeEvent OnTimerExpired;
 
-    public int secondRemaining = 60;
+    public int secondRemaining;
+
+    public bool Expired { get => secondRemaining <= 0; }
 
     private void Start()
     {
+        secondRemaining = ConfigData.Instance.timeLimit;
+
         InvokeRepeating("DecrementTimeRemaining", 1f, 1f);
     }
 

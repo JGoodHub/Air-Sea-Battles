@@ -88,6 +88,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7643520889167837440}
+  - component: {fileID: 924699800}
   - component: {fileID: 7643520889167837441}
   - component: {fileID: 1090631472}
   m_Layer: 0
@@ -112,6 +113,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &924699800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7643520889167837443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11b698de616f49144a76df38e39e3243, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 0}
+  relativePositionX: 0.25
+  relativePositionY: 0.154
+  updateInEditor: 0
 --- !u!114 &7643520889167837441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,7 +142,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunColor: {r: 0.77599996, g: 0.50439996, b: 0.09915553, a: 1}
-  relativePosition: 0.25
   gunSpriteRen: {fileID: 7643520887442646532}
   aimUpSetup:
     sprite: {fileID: 21300000, guid: 5244b4082efcf1f42b3b8f43fbda6575, type: 3}

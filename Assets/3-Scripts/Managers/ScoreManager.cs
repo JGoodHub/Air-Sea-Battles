@@ -5,18 +5,18 @@ using UnityEngine;
 public class ScoreManager : Singleton<ScoreManager>
 {
 
-    private int score;
-    private int highscore = 100;
+    private int localScore;
+    private int localHighScore;
 
     private bool isNewHighscore = false;
 
-    private int timeRemaining = 60;
-
     private void Start()
     {
-        ScoreUI.Instance.SetScore(score);
-        ScoreUI.Instance.SetHighscore(highscore);
-        ScoreUI.Instance.SetTimeRemaining(timeRemaining);
+        localHighScore = ConfigData.Instance.GetHighScore();
+
+        ScoreUI.Instance.SetScore(localScore);
+        ScoreUI.Instance.SetHighscore(localHighScore);
+        ScoreUI.Instance.SetTimeRemaining(ConfigData.Instance.timeLimit);
 
         foreach (PlaneBehaviour planeBehaviour in PlaneManager.Instance.planePool)
         {
@@ -34,23 +34,29 @@ public class ScoreManager : Singleton<ScoreManager>
         TimeManager.Instance.OnTimerExpired += (timer, secondsRemaining) =>
         {
             ScoreUI.Instance.DisplayGameoverScreen(isNewHighscore);
+
+            ConfigData.Instance.lastScore = localScore;
+            ConfigData.Instance.SetHighScore(localHighScore);
         };
     }
 
     public void IncrementScore(int amount)
     {
-        Mathf.Clamp(amount, 0, int.MaxValue);
-
-        score += amount;
-
-        if (score > highscore)
+        if (TimeManager.Instance.Expired == false)
         {
-            highscore = score;
-            isNewHighscore = true;
-        }
+            Mathf.Clamp(amount, 0, int.MaxValue);
 
-        ScoreUI.Instance.SetScore(score);
-        ScoreUI.Instance.SetHighscore(highscore);
+            localScore += amount;
+
+            if (localScore > localHighScore)
+            {
+                localHighScore = localScore;
+                isNewHighscore = true;
+            }
+
+            ScoreUI.Instance.SetScore(localScore);
+            ScoreUI.Instance.SetHighscore(localHighScore);
+        }
     }
 
 }
