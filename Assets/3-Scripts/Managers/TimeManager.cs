@@ -28,12 +28,7 @@ public class TimeManager : Singleton<TimeManager>
 
             OnTimerExpired.Invoke(this, 0);
 
-            Invoke("LoadMenuScene", 5f);
+            LevelManager.Instance.LoadMainMenu(4f);
         }
-    }
-
-    private void LoadMenuScene()
-    {
-        SceneManager.LoadScene(0);
     }
 }

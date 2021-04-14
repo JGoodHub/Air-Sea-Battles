@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class MenuUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    private void Update()
     {
-        
+        if (Input.GetButtonDown("Fire"))
+        {
+            LevelManager.Instance.LoadStageOne();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -7,7 +7,11 @@ public class ConfigData : ScriptableObject
 {
     public string id;
 
-    public int pointPerPlane;
-    public int defaultHighScore;
     public int timeLimit;
+
+    public int pointPerPlane;
+
+    public int lastScore;
+    public int defaultHighScore;
+
 }
