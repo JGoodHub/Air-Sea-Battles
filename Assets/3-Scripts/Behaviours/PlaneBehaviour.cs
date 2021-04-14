@@ -46,6 +46,8 @@ public class PlaneBehaviour : MonoBehaviour
 
         if (health <= 0)
         {
+            ExplosionsManager.Instance.SpawnExplosion(transform.position);
+
             Sleep();
 
             OnPlaneDestroyed?.Invoke(this);
