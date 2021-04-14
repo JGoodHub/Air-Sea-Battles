@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GunBehaviour : MonoBehaviour
 {
@@ -46,6 +47,10 @@ public class GunBehaviour : MonoBehaviour
     private Vector2 gunDirection;
     private bool gunLocked;
 
+    [Header("Event Triggers")]
+    [Space]
+
+    public UnityEvent OnBulletFired;
 
     private void OnValidate()
     {
@@ -94,9 +99,14 @@ public class GunBehaviour : MonoBehaviour
 
             if (fireCooldown <= 0 && Input.GetButtonDown("Fire"))
             {
-                FireBullet();
+                bool successful = FireBullet();
 
-                fireCooldown = fireInterval;
+                if (successful)
+                {
+                    OnBulletFired?.Invoke();
+
+                    fireCooldown = fireInterval;
+                }
             }
         }
     }
@@ -125,9 +135,7 @@ public class GunBehaviour : MonoBehaviour
 
     public bool FireBullet()
     {
-        BulletManager.Instance.FireBullet((Vector2)transform.position + (gunDirection * bulletOriginOffset), gunDirection);
-
-        return true;
+        return BulletManager.Instance.FireBullet((Vector2)transform.position + (gunDirection * bulletOriginOffset), gunDirection);
     }
 
     /// <summary>
