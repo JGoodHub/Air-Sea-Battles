@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1927585223584647155}
   - component: {fileID: 8246742437177383111}
   m_Layer: 0
-  m_Name: Jet
+  m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,54 +45,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a4eab52068e0544c92a7044408e276a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  averageSpeed: 3
+  averageSpeed: 2.5
   traverselCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 1.0646143
-      outSlope: 1.0646143
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.16641901
-    - serializedVersion: 3
-      time: 0.25
-      value: 0.2
-      inSlope: 0.022391759
-      outSlope: 0.022391759
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.27772677
-    - serializedVersion: 3
-      time: 0.5
-      value: 0.5
-      inSlope: 0.007407703
-      outSlope: 0.007407703
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.22997952
-    - serializedVersion: 3
-      time: 0.75
-      value: 0.8
-      inSlope: 0.011562436
-      outSlope: 0.011562436
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.2610917
+      outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 1.322894
-      outSlope: 1.322894
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.15453196
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -121,7 +94,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.769552, y: 0.25999844}
+  m_Size: {x: 1.0997417, y: 0.25999844}
   m_EdgeRadius: 0
 --- !u!1 &5683774301240517932
 GameObject:
@@ -149,7 +122,7 @@ Transform:
   m_GameObject: {fileID: 5683774301240517932}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6313552173613306720}
   m_RootOrder: 0

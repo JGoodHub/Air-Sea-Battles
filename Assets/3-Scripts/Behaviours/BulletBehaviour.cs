@@ -3,18 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletBehaviour : MonoBehaviour
+public class BulletBehaviour : MonoBehaviour, IPoolable
 {
-    public delegate void BulletEvent(BulletBehaviour sender);
-    public event BulletEvent OnBulletDestroyed;
-
     private bool awake = false;
+    private Vector3 sleepPosition;
 
     private Vector2 direction;
     private float speed;
     private bool visiblity;
 
     private Vector2 lastUpdatePosition;
+
+    public event PoolEvent OnEntityAwoken;
+    public event PoolEvent OnEntitySlept;
+
+    private void Awake()
+    {
+        sleepPosition = transform.position;
+    }
 
     public void Initalise(Vector2 origin, Vector2 direction, float speed)
     {
@@ -43,7 +49,6 @@ public class BulletBehaviour : MonoBehaviour
                     plane.Damage(1);
 
                     Sleep();
-                    OnBulletDestroyed?.Invoke(this);
                     return;
                 }
             }
@@ -52,7 +57,6 @@ public class BulletBehaviour : MonoBehaviour
 
             if (visiblity == false)
             {
-                OnBulletDestroyed?.Invoke(this);
                 Sleep();
             }
 
@@ -63,12 +67,15 @@ public class BulletBehaviour : MonoBehaviour
     public void Awaken()
     {
         awake = true;
+        OnEntityAwoken?.Invoke(this);
     }
 
     public void Sleep()
     {
         awake = false;
-        transform.position = Vector3.down * 5f;
+        transform.position = sleepPosition;
+        OnEntitySlept?.Invoke(this);
+
     }
 
 }

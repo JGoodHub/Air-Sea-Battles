@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1927585223584647155}
   - component: {fileID: 8246742437177383111}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Jet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,20 +52,29 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 0.8706199
+      value: 0.8952326
+      inSlope: 0.21879122
+      outSlope: 0.21879122
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.27072546
+    - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 2.1292284
+      outSlope: 2.1292284
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.32156998
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -94,7 +103,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.0997417, y: 0.25999844}
+  m_Size: {x: 0.6495528, y: 0.2798608}
   m_EdgeRadius: 0
 --- !u!1 &5683774301240517932
 GameObject:
@@ -122,7 +131,7 @@ Transform:
   m_GameObject: {fileID: 5683774301240517932}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.9, z: 0.9}
   m_Children: []
   m_Father: {fileID: 6313552173613306720}
   m_RootOrder: 0

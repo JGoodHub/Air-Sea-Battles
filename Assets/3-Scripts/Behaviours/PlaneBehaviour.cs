@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlaneBehaviour : MonoBehaviour
+public class PlaneBehaviour : MonoBehaviour, IPoolable
 {
-    public delegate void PlaneEvent(PlaneBehaviour sender);
-    public event PlaneEvent OnPlaneDestroyed;
+    public event PoolEvent OnEntityAwoken;
+    public event PoolEvent OnEntitySlept;
 
     private bool awake = false;
+    private Vector2 sleepPosition;
 
     private int maxHealth = 1;
     private int health = 1;
@@ -24,6 +25,15 @@ public class PlaneBehaviour : MonoBehaviour
     {
         maxHealth = Mathf.Clamp(maxHealth, 1, int.MaxValue);
         averageSpeed = Mathf.Clamp(averageSpeed, 0, float.MaxValue);
+    }
+
+    private void Awake()
+    {
+        sleepPosition = transform.position;
+        linearPosition.z = transform.position.z;
+
+        traverselDistance = BoundsHelper.Instance.Right - BoundsHelper.Instance.Left;
+        traversalTime = traverselDistance / averageSpeed;
     }
 
     private void Update()
@@ -52,9 +62,6 @@ public class PlaneBehaviour : MonoBehaviour
     {
         linearPosition = new Vector3(BoundsHelper.Instance.Left, transform.position.y, transform.position.z);
         t = 0;
-
-        traverselDistance = BoundsHelper.Instance.Right - BoundsHelper.Instance.Left;
-        traversalTime = traverselDistance / averageSpeed;
     }
 
     public void Damage(int amount)
@@ -63,25 +70,30 @@ public class PlaneBehaviour : MonoBehaviour
 
         if (health <= 0)
         {
-            ExplosionsManager.Instance.SpawnExplosion(transform.position);
+            PoolManager.GetPool("Explosions").SpawnObject(transform.position);
 
             Sleep();
-
-            OnPlaneDestroyed?.Invoke(this);
         }
     }
+
+    #region Interface Methods
 
     public void Awaken()
     {
         awake = true;
         health = maxHealth;
         ResetHorizontal();
+
+        OnEntityAwoken?.Invoke(this);
     }
 
     public void Sleep()
     {
         awake = false;
-        transform.position = Vector3.down * 10f;
+        transform.position = sleepPosition;
+        OnEntitySlept?.Invoke(this);
     }
+
+    #endregion
 
 }

@@ -23,8 +23,6 @@ public class ConfigData : ScriptableObject
         }
     }
 
-
-
     public string id;
     public int timeLimit;
     public int pointPerPlane;

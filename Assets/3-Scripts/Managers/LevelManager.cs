@@ -6,7 +6,18 @@ using UnityEngine.SceneManagement;
 public class LevelManager : Singleton<LevelManager>
 {
     public int mainMenuIndex = 0;
-    public int stageOneIndex = 1;
+
+    private int targetIndex;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        if (dying)
+            return;
+
+        transform.parent = null;
+        DontDestroyOnLoad(gameObject);
+    }
 
     public void LoadMainMenu(float delay)
     {
@@ -18,14 +29,24 @@ public class LevelManager : Singleton<LevelManager>
         SceneManager.LoadScene(mainMenuIndex);
     }
 
-    public void LoadStageOne(float delay)
+    public void LoadScene(int buildIndex, float delay)
     {
-        Invoke("LoadStageOne", delay);
+        targetIndex = buildIndex;
+
+        Invoke("LoadTargetScene", delay);
     }
 
-    public void LoadStageOne()
+    public void LoadTargetScene()
     {
-        SceneManager.LoadScene(stageOneIndex);
+        SceneManager.LoadScene(targetIndex);
+    }
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("Cancel"))
+        {
+            TimeManager.Instance.secondRemaining = 0;
+        }
     }
 
 

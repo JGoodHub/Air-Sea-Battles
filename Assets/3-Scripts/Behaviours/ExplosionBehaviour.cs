@@ -3,31 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ExplosionBehaviour : MonoBehaviour
+public class ExplosionBehaviour : MonoBehaviour, IPoolable
 {
+    private Vector3 sleepPosition;
+
     public float effectDuration;
     private float sleepCountdown;
 
-    public UnityEvent onExplosionAwoken;
-    public UnityEvent onExplosionSlept;
+    public UnityEvent OnExplosionAwoken;
+    public UnityEvent OnExplosionSlept;
 
-    private void Start()
+    public event PoolEvent OnEntityAwoken;
+    public event PoolEvent OnEntitySlept;
+
+    private void Awake()
     {
-        Sleep();
-    }
-
-    public void Awaken()
-    {
-        onExplosionAwoken?.Invoke();
-
-        sleepCountdown = effectDuration;
-    }
-
-    public void Sleep()
-    {
-        onExplosionSlept?.Invoke();
-
-        transform.position = Vector2.down * 6f;
+        sleepPosition = transform.position;
     }
 
     private void Update()
@@ -42,5 +33,19 @@ public class ExplosionBehaviour : MonoBehaviour
         }
     }
 
+    public void Awaken()
+    {
+        OnEntityAwoken?.Invoke(this);
+        OnExplosionAwoken?.Invoke();
 
+        sleepCountdown = effectDuration;
+    }
+
+    public void Sleep()
+    {
+        OnEntitySlept?.Invoke(this);
+        OnExplosionSlept?.Invoke();
+
+        transform.position = sleepPosition;
+    }
 }

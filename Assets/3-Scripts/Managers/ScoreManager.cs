@@ -18,13 +18,10 @@ public class ScoreManager : Singleton<ScoreManager>
         ScoreUI.Instance.SetHighscore(localHighScore);
         ScoreUI.Instance.SetTimeRemaining(ConfigData.Instance.timeLimit);
 
-        foreach (PlaneBehaviour planeBehaviour in PlaneManager.Instance.planePool)
+        PoolManager.GetPool("Aircraft").AttachSleepCallbackToAll((plane) =>
         {
-            planeBehaviour.OnPlaneDestroyed += (plane) =>
-            {
-                IncrementScore(ConfigData.Instance.pointPerPlane);
-            };
-        }
+            IncrementScore(ConfigData.Instance.pointPerPlane);
+        });
 
         TimeManager.Instance.OnTimerTick += (timer, secondsRemaining) =>
         {

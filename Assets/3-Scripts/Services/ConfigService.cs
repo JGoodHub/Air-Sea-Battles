@@ -30,7 +30,6 @@ public class ConfigService : Singleton<ConfigService>
     protected override void Awake()
     {
         base.Awake();
-
         if (dying)
             return;
 

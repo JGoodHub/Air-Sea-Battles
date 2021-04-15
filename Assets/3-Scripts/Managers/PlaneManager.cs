@@ -9,48 +9,31 @@ public class PlaneManager : Singleton<PlaneManager>
     public event WaveEvent OnWaveStarted;
     public event WaveEvent OnWaveComplete;
 
-    public PlaneBehaviour[] planePool;
-    private Queue<PlaneBehaviour> sleepingPlanes;
-
     [Range(1, 8)] public int planesSpawnCountMin;
     [Range(1, 8)] public int planesSpawnCountMax;
 
     public float waveDelay;
 
-    private int planesAlive = -1;
+    private int planesAlive = 0;
 
     private void OnValidate()
     {
         planesSpawnCountMax = Mathf.Clamp(planesSpawnCountMax, planesSpawnCountMin, 8);
-
         waveDelay = Mathf.Clamp(waveDelay, 0, float.MaxValue);
-
-        if (planePool != null && planePool.Length < planesSpawnCountMax)
-        {
-            Debug.LogWarning("Warning: Your plane pool is not big enough to support the max number of planes on screen at once, consider increasing your pool size");
-        }
     }
 
     private void Start()
     {
-        sleepingPlanes = new Queue<PlaneBehaviour>();
-        for (int i = 0; i < planePool.Length; i++)
+        PoolManager.GetPool("Aircraft").AttachSleepCallbackToAll((sender) =>
         {
-            planePool[i].OnPlaneDestroyed += (plane) =>
+            planesAlive--;
+
+            if (planesAlive == 0)
             {
-                planesAlive--;
-                sleepingPlanes.Enqueue(plane);
-
-                if (planesAlive == 0)
-                {
-                    OnWaveComplete?.Invoke();
-
-                    Invoke("SpawnWave", waveDelay);
-                }
-            };
-
-            sleepingPlanes.Enqueue(planePool[i]);
-        }
+                OnWaveComplete?.Invoke();
+                Invoke("SpawnWave", waveDelay);
+            }
+        });
 
         Invoke("SpawnWave", waveDelay);
     }
@@ -61,9 +44,7 @@ public class PlaneManager : Singleton<PlaneManager>
 
         for (int p = 0; p < planesCount; p++)
         {
-            PlaneBehaviour plane = sleepingPlanes.Dequeue();
-            plane.Awaken();
-
+            PlaneBehaviour plane = PoolManager.GetPool("Aircraft").SpawnAs<PlaneBehaviour>();
             plane.SetHeightLevel(8 - p);
         }
 

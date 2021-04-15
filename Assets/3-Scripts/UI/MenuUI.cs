@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class MenuUI : MonoBehaviour
 {
-
     public Text lastScoreText;
     public Text highScoreText;
 
@@ -21,14 +20,6 @@ public class MenuUI : MonoBehaviour
     private void OnConfigResponceRecieved(ConfigService sender, ConfigService.ConfigResponce responce)
     {
         highScoreText.text = ConfigData.Instance.GetHighScore().ToString();
-    }
-
-    private void Update()
-    {
-        if (Input.GetButtonDown("Fire"))
-        {
-            LevelManager.Instance.LoadStageOne();
-        }
     }
 
 }

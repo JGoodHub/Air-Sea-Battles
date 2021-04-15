@@ -5,36 +5,21 @@ using UnityEngine;
 public class BulletManager : Singleton<BulletManager>
 {
 
-    private Queue<BulletBehaviour> sleepingBullets;
-    public BulletBehaviour[] bulletPool;
-
     public float projectileSpeed;
-
-    private void Start()
-    {
-        sleepingBullets = new Queue<BulletBehaviour>();
-        for (int i = 0; i < bulletPool.Length; i++)
-        {
-            bulletPool[i].OnBulletDestroyed += (bullet) =>
-            {
-                sleepingBullets.Enqueue(bullet);
-            };
-
-            sleepingBullets.Enqueue(bulletPool[i]);
-        }
-    }
 
     public bool FireBullet(Vector2 origin, Vector2 direction)
     {
-        if (sleepingBullets.Count == 0)
+        BulletBehaviour bullet = PoolManager.GetPool("Bullets").SpawnAs<BulletBehaviour>();
+
+        if (bullet != null)
+        {
+            bullet.Initalise(origin, direction, projectileSpeed);
+            return true;
+        }
+        else
+        {
             return false;
-
-        BulletBehaviour bullet = sleepingBullets.Dequeue();
-
-        bullet.Awaken();
-        bullet.Initalise(origin, direction, projectileSpeed);
-
-        return true;
+        }
     }
 
 }

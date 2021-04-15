@@ -26,7 +26,7 @@ public class TimeManager : Singleton<TimeManager>
 
         OnTimerTick?.Invoke(this, secondRemaining);
 
-        if (secondRemaining == 0)
+        if (secondRemaining <= 0)
         {
             CancelInvoke();
 
