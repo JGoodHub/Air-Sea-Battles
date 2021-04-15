@@ -19,16 +19,13 @@ public class LevelManager : Singleton<LevelManager>
         DontDestroyOnLoad(gameObject);
     }
 
+    //Load the main menu scene with a slight delay
     public void LoadMainMenu(float delay)
     {
-        Invoke("LoadMainMenu", delay);
+        LoadScene(mainMenuIndex, delay);
     }
 
-    public void LoadMainMenu()
-    {
-        SceneManager.LoadScene(mainMenuIndex);
-    }
-
+    //Load the target scene index with a slight delay
     public void LoadScene(int buildIndex, float delay)
     {
         targetIndex = buildIndex;
@@ -41,11 +38,13 @@ public class LevelManager : Singleton<LevelManager>
         SceneManager.LoadScene(targetIndex);
     }
 
+    // End a stage early by setting the time remaining to zero
     private void Update()
     {
         if (Input.GetButtonDown("Cancel"))
         {
-            TimeManager.Instance.secondRemaining = 0;
+            if (SceneManager.GetActiveScene().buildIndex != mainMenuIndex)
+                TimeManager.Instance.secondRemaining = 0;
         }
     }
 

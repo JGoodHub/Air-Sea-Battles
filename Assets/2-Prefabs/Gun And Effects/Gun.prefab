@@ -157,6 +157,7 @@ MonoBehaviour:
     angleDirection: {x: 0, y: 0}
   bulletOriginOffset: 0.6
   fireInterval: 0.2
+  bulletSpeed: 5
   OnBulletFired:
     m_PersistentCalls:
       m_Calls:

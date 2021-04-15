@@ -21,6 +21,7 @@ public class ExplosionBehaviour : MonoBehaviour, IPoolable
         sleepPosition = transform.position;
     }
 
+    // Countdown the explosions lifetime counter and sleep it
     private void Update()
     {
         if (sleepCountdown > 0)
@@ -33,6 +34,7 @@ public class ExplosionBehaviour : MonoBehaviour, IPoolable
         }
     }
 
+    // Fire the wake events and reset the countdown
     public void Awaken()
     {
         OnEntityAwoken?.Invoke(this);
@@ -41,6 +43,7 @@ public class ExplosionBehaviour : MonoBehaviour, IPoolable
         sleepCountdown = effectDuration;
     }
 
+    // Hide and sleep the explosion
     public void Sleep()
     {
         OnEntitySlept?.Invoke(this);

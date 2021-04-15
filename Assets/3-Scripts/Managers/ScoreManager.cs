@@ -10,6 +10,7 @@ public class ScoreManager : Singleton<ScoreManager>
 
     private bool isNewHighscore = false;
 
+    //Set the score texts using the global config file and the event callbacks for show game overs screens when the timer has expired
     private void Start()
     {
         localHighScore = ConfigData.Instance.GetHighScore();
@@ -23,11 +24,13 @@ public class ScoreManager : Singleton<ScoreManager>
             IncrementScore(ConfigData.Instance.pointPerPlane);
         });
 
+        //Update the time remaining text
         TimeManager.Instance.OnTimerTick += (timer, secondsRemaining) =>
         {
             ScoreUI.Instance.SetTimeRemaining(secondsRemaining);
         };
 
+        //Show the game over screen and potentially highscore text when the timer has finished
         TimeManager.Instance.OnTimerExpired += (timer, secondsRemaining) =>
         {
             ScoreUI.Instance.DisplayGameoverScreen(isNewHighscore);
@@ -37,6 +40,7 @@ public class ScoreManager : Singleton<ScoreManager>
         };
     }
 
+    //If the timer hasn't expired increase the players score by the set amount and update the UI to match
     public void IncrementScore(int amount)
     {
         if (TimeManager.Instance.Expired == false)

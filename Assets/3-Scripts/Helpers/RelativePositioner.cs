@@ -10,12 +10,14 @@ public class RelativePositioner : MonoBehaviour
     [Range(-1f, 2f)] public float relativePositionX;
     [Range(-1f, 2f)] public float relativePositionY;
 
+    //Set the transform to the relative position
     private void Awake()
     {
         Vector2 relativeWorldPosition = RelativePointToWorldPosition(relativePositionX, relativePositionY);
         transform.position = new Vector3(relativeWorldPosition.x, relativeWorldPosition.y, transform.position.z);
     }
 
+    //Convert a relative screen coordinate to a world space coordinate, useful for positioning items on dynamic aspect ratios
     public Vector2 RelativePointToWorldPosition(float relativePositionX, float relativePositionY)
     {
         if (camera == null)
@@ -29,6 +31,7 @@ public class RelativePositioner : MonoBehaviour
 
     public bool updateInEditor;
 
+    // Update the position in the editor
     private void OnDrawGizmos()
     {
         if (updateInEditor)

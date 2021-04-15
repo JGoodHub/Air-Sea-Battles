@@ -10,7 +10,7 @@ public class HeightHelper : Singleton<HeightHelper>
 
     public int levels;
 
-
+    // Convert the height/colour band index to a world value on the y axis
     public float GetHeightForLevel(int level)
     {
         level = Mathf.Clamp(level, 0, levels);
@@ -18,6 +18,7 @@ public class HeightHelper : Singleton<HeightHelper>
         return zeroHeight + (spacing * level);
     }
 
+    //Draw each world value for each of the levels
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;

@@ -22,6 +22,7 @@ public class BulletBehaviour : MonoBehaviour, IPoolable
         sleepPosition = transform.position;
     }
 
+    // Set the bullets flight parameters
     public void Initalise(Vector2 origin, Vector2 direction, float speed)
     {
         transform.position = origin;
@@ -31,6 +32,7 @@ public class BulletBehaviour : MonoBehaviour, IPoolable
         this.speed = speed;
     }
 
+    // Move the bullet each frame and check for and handle collisions
     private void Update()
     {
         if (awake)
@@ -53,6 +55,7 @@ public class BulletBehaviour : MonoBehaviour, IPoolable
                 }
             }
 
+            // Check if the bullet is still in the screen bounds and sleep it if not
             visiblity = BoundsHelper.Instance.IsPointInBounds(transform.position);
 
             if (visiblity == false)
@@ -64,12 +67,14 @@ public class BulletBehaviour : MonoBehaviour, IPoolable
         }
     }
 
+    // Wake the bullet so that it can move
     public void Awaken()
     {
         awake = true;
         OnEntityAwoken?.Invoke(this);
     }
 
+    // Sleep and high the bullet from view
     public void Sleep()
     {
         awake = false;

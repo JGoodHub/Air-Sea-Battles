@@ -23,6 +23,7 @@ public class ScoreUI : Singleton<ScoreUI>
         scoreText.text = score.ToString();
     }
 
+    //Convert the time remaining to minutes and seconds and display it
     public void SetTimeRemaining(int seconds)
     {
         seconds = Mathf.Clamp(seconds, 0, int.MaxValue);

@@ -22,6 +22,7 @@ public class PlaneManager : Singleton<PlaneManager>
         waveDelay = Mathf.Clamp(waveDelay, 0, float.MaxValue);
     }
 
+    // Setup the callbacks to check when all the planes have been destroyed and the next wave can be spawned
     private void Start()
     {
         PoolManager.GetPool("Aircraft").AttachSleepCallbackToAll((sender) =>
@@ -38,6 +39,7 @@ public class PlaneManager : Singleton<PlaneManager>
         Invoke("SpawnWave", waveDelay);
     }
 
+    //Spawn a random number of planes and start them flying across the screen
     public void SpawnWave()
     {
         int planesCount = Random.Range(planesSpawnCountMin, planesSpawnCountMax + 1);

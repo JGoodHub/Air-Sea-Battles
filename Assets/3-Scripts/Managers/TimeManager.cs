@@ -13,6 +13,7 @@ public class TimeManager : Singleton<TimeManager>
 
     public bool Expired { get => secondRemaining <= 0; }
 
+    //Set the time limit from the config
     private void Start()
     {
         secondRemaining = ConfigData.Instance.timeLimit;
@@ -20,6 +21,7 @@ public class TimeManager : Singleton<TimeManager>
         InvokeRepeating("DecrementTimeRemaining", 1f, 1f);
     }
 
+    //Decrease the seconds remaining by 1 and check if the timer has expired, calling the appropriate events if it has
     private void DecrementTimeRemaining()
     {
         secondRemaining -= 1;

@@ -13,11 +13,13 @@ public class BoundsHelper : Singleton<BoundsHelper>
     public float Top { get => worldBoundsMax.position.y; }
     public float Bottom { get => worldBoundsMin.position.y; }
 
+    //Check if a point is in the bounds marked out using the two min/max transform handles
     public bool IsPointInBounds(Vector2 point)
     {
         return point.x >= Left && point.x <= Right && point.y >= Bottom && point.y <= Top;
     }
 
+    //Draw the bounds to the editor using gizmos, auto create the handles if none are assigned
     private void OnDrawGizmos()
     {
         if (worldBoundsMin == null)

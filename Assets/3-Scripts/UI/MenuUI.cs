@@ -17,6 +17,7 @@ public class MenuUI : MonoBehaviour
         ConfigService.Instance.OnConfigResponceRecieved += OnConfigResponceRecieved;
     }
 
+    //Set the highscore once the http request completes
     private void OnConfigResponceRecieved(ConfigService sender, ConfigService.ConfigResponce responce)
     {
         highScoreText.text = ConfigData.Instance.GetHighScore().ToString();

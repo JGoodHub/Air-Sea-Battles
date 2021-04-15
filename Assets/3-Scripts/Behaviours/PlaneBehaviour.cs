@@ -31,11 +31,16 @@ public class PlaneBehaviour : MonoBehaviour, IPoolable
     {
         sleepPosition = transform.position;
         linearPosition.z = transform.position.z;
+    }
 
+    //Set the parameters needed to traverse using the curve
+    private void Start()
+    {
         traverselDistance = BoundsHelper.Instance.Right - BoundsHelper.Instance.Left;
         traversalTime = traverselDistance / averageSpeed;
     }
 
+    //Fly across the screen using the curve as reference for how fast at each moment as we cross the screen, resetting to the start when we reach the other side
     private void Update()
     {
         if (awake)
@@ -53,17 +58,20 @@ public class PlaneBehaviour : MonoBehaviour, IPoolable
         }
     }
 
+    //Set which height/colour bound this plane is in using the helper
     public void SetHeightLevel(int level)
     {
         linearPosition.y = HeightHelper.Instance.GetHeightForLevel(level);
     }
 
+    //Reset our horizontal position to the left side of the screen
     public void ResetHorizontal()
     {
         linearPosition = new Vector3(BoundsHelper.Instance.Left, transform.position.y, transform.position.z);
         t = 0;
     }
 
+    //Deal the passed amount of damage to our plane and if were out of hp, sleep and create an explosion in our place
     public void Damage(int amount)
     {
         health -= amount;

@@ -41,6 +41,9 @@ public class PoolManager : MonoBehaviour
 
     public string id;
 
+    /// <summary>
+    /// Clear an existing cache
+    /// </summary>
     private void Awake()
     {
         cache?.Clear();

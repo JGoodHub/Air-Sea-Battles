@@ -27,6 +27,7 @@ public class ConfigService : Singleton<ConfigService>
 
     public ConfigData config;
 
+    //Setup the response callback and send the request to the server to fetch the game config JSON
     protected override void Awake()
     {
         base.Awake();
@@ -55,6 +56,7 @@ public class ConfigService : Singleton<ConfigService>
         StartCoroutine(SendConfigRequestCoroutine());
     }
 
+    //Send a request to the server to fetch the config JSON data
     private IEnumerator SendConfigRequestCoroutine()
     {
         UnityWebRequest www = UnityWebRequest.Get("http://content.gamefuel.info/api/client_programming_test/air_battle_v1/content/config/config");
@@ -64,12 +66,13 @@ public class ConfigService : Singleton<ConfigService>
         {
             Debug.Log(www.error);
 
-            //Return a response containing default values
+            //Return a response containing default values if the connection errored out
             ConfigResponce responce = new ConfigResponce("config", 30, 1, 100);
             OnConfigResponceRecieved?.Invoke(this, responce);
         }
         else
         {
+            //COnvert the Json to the response object and fire off the callback
             ConfigResponce responce = JsonUtility.FromJson<ConfigResponce>(www.downloadHandler.text);
             OnConfigResponceRecieved?.Invoke(this, responce);
         }

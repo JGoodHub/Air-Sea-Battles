@@ -12,7 +12,6 @@ public class ConfigData : ScriptableObject
         {
             if (_instance == null)
             {
-                //TODO -----> Check for multiple copies of the singleton and notify user if found
                 _instance = Resources.FindObjectsOfTypeAll<ConfigData>()[0];
                 return _instance;
             }
@@ -33,6 +32,7 @@ public class ConfigData : ScriptableObject
 
     public bool resetScoresOnInit;
 
+    //Reset the scores in the editor to mimic a live build
     public void Initalise()
     {
         if (resetScoresOnInit)
@@ -50,6 +50,7 @@ public class ConfigData : ScriptableObject
             return highScore;
     }
 
+    //Set the highscore if its higher than the current one
     public bool SetHighScore(int newHighScore)
     {
         if (newHighScore > highScore)

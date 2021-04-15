@@ -32,8 +32,6 @@ public class StageSelectorUI : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(Input.GetButtonDown("Aim Left"));
-
         if (Input.GetButtonDown("Aim Left"))
         {
             stageIndex = Mathf.Clamp(stageIndex - 1, 0, stages.Length - 1);

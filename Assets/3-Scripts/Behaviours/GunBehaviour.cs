@@ -40,6 +40,8 @@ public class GunBehaviour : MonoBehaviour
     public float fireInterval;
     private float fireCooldown;
 
+    public float bulletSpeed;
+
     private Vector2 gunDirection;
     private bool gunLocked;
 
@@ -53,17 +55,19 @@ public class GunBehaviour : MonoBehaviour
         fireInterval = Mathf.Clamp(fireInterval, 0, float.MaxValue);
     }
 
-    // Position the gun at the quarter mark
+    // Setup the guns firing angles and events
     private void Start()
     {
         Debug.Assert(aimUpSetup.sprite != null && aimMiddleSetup.sprite != null && aimDownSetup.sprite != null, "Not all angle sprites have been set");
 
         gunSpriteRen.color = gunColor;
 
+        // Calculate the firing direction by rotating a 2D vector to match the gun sprites pitch
         aimUpSetup.angleDirection = RotateVector2(Vector2.right, aimUpSetup.angle, Vector2.zero).normalized;
         aimMiddleSetup.angleDirection = RotateVector2(Vector2.right, aimMiddleSetup.angle, Vector2.zero).normalized;
         aimDownSetup.angleDirection = RotateVector2(Vector2.right, aimDownSetup.angle, Vector2.zero).normalized;
 
+        // Lock the gun when the game finishes
         TimeManager.Instance.OnTimerExpired += (timer, seconds) =>
         {
             gunLocked = true;
@@ -77,6 +81,7 @@ public class GunBehaviour : MonoBehaviour
 
         if (gunLocked == false)
         {
+            // Reset the gun to the middle position when no button is held
             if (Input.GetButton("Aim Up"))
             {
                 SetGunAngle(AngleState.UP);
@@ -90,6 +95,7 @@ public class GunBehaviour : MonoBehaviour
                 SetGunAngle(AngleState.MIDDLE);
             }
 
+            // Cooldown permitting try fire a bullet from the poll queue, if were not at the max bullets on screen play the fire sound
             if (fireCooldown <= 0 && Input.GetButtonDown("Fire"))
             {
                 bool successful = FireBullet();
@@ -104,6 +110,7 @@ public class GunBehaviour : MonoBehaviour
         }
     }
 
+    //Set the guns angle and associated sprite using the passed enum state
     public void SetGunAngle(AngleState state)
     {
         switch (state)
@@ -126,9 +133,20 @@ public class GunBehaviour : MonoBehaviour
         }
     }
 
+    // Try get a bullet from the pool and fire it at the current sprite angle, return false if there weren't any bullets to fire
     public bool FireBullet()
     {
-        return BulletManager.Instance.FireBullet((Vector2)transform.position + (gunDirection * bulletOriginOffset), gunDirection);
+        BulletBehaviour bullet = PoolManager.GetPool("Bullets").SpawnAs<BulletBehaviour>();
+
+        if (bullet != null)
+        {
+            bullet.Initalise((Vector2)transform.position + (gunDirection * bulletOriginOffset), gunDirection, bulletSpeed);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /// <summary>
