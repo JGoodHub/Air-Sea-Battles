@@ -8,36 +8,53 @@ public class PlaneBehaviour : MonoBehaviour
     public event PlaneEvent OnPlaneDestroyed;
 
     private bool awake = false;
-    private float speed;
+
     private int maxHealth = 1;
     private int health = 1;
+
+    private float t;
+    private Vector3 linearPosition;
+
+    public float averageSpeed;
+    private float traverselDistance;
+    private float traversalTime;
+    public AnimationCurve traverselCurve;
+
+    private void OnValidate()
+    {
+        maxHealth = Mathf.Clamp(maxHealth, 1, int.MaxValue);
+        averageSpeed = Mathf.Clamp(averageSpeed, 0, float.MaxValue);
+    }
 
     private void Update()
     {
         if (awake)
         {
-            transform.position += Vector3.right * speed * Time.deltaTime;
+            t += Time.deltaTime;
 
-            if (transform.position.x >= BoundsHelper.Instance.Right)
+            linearPosition.x = BoundsHelper.Instance.Left + (traverselCurve.Evaluate(t / traversalTime) * traverselDistance);
+
+            transform.position = linearPosition;
+
+            if (t >= traversalTime)
             {
                 ResetHorizontal();
             }
         }
     }
 
-    public void SetSpeed(float speed)
+    public void SetHeightLevel(int level)
     {
-        this.speed = Mathf.Clamp(speed, 0, float.MaxValue);
-    }
-
-    public void SetLevel(int level)
-    {
-        transform.position = new Vector3(transform.position.x, HeightHelper.Instance.GetHeightForLevel(level), transform.position.z);
+        linearPosition.y = HeightHelper.Instance.GetHeightForLevel(level);
     }
 
     public void ResetHorizontal()
     {
-        transform.position = new Vector3(BoundsHelper.Instance.Left, transform.position.y, transform.position.z);
+        linearPosition = new Vector3(BoundsHelper.Instance.Left, transform.position.y, transform.position.z);
+        t = 0;
+
+        traverselDistance = BoundsHelper.Instance.Right - BoundsHelper.Instance.Left;
+        traversalTime = traverselDistance / averageSpeed;
     }
 
     public void Damage(int amount)

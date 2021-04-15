@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Config
   m_EditorClassIdentifier: 
   id: config
-  timeLimit: 0
-  pointPerPlane: 0
-  defaultHighScore: 0
+  timeLimit: 30
+  pointPerPlane: 1
+  defaultHighScore: 100
   lastScore: 0
   highScore: 0
+  resetScoresOnInit: 1

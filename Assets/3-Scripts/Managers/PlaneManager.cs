@@ -15,7 +15,6 @@ public class PlaneManager : Singleton<PlaneManager>
     [Range(1, 8)] public int planesSpawnCountMin;
     [Range(1, 8)] public int planesSpawnCountMax;
 
-    public float speed;
     public float waveDelay;
 
     private int planesAlive = -1;
@@ -24,7 +23,6 @@ public class PlaneManager : Singleton<PlaneManager>
     {
         planesSpawnCountMax = Mathf.Clamp(planesSpawnCountMax, planesSpawnCountMin, 8);
 
-        speed = Mathf.Clamp(speed, 0, float.MaxValue);
         waveDelay = Mathf.Clamp(waveDelay, 0, float.MaxValue);
 
         if (planePool != null && planePool.Length < planesSpawnCountMax)
@@ -66,8 +64,7 @@ public class PlaneManager : Singleton<PlaneManager>
             PlaneBehaviour plane = sleepingPlanes.Dequeue();
             plane.Awaken();
 
-            plane.SetSpeed(speed);
-            plane.SetLevel(8 - p);
+            plane.SetHeightLevel(8 - p);
         }
 
         planesAlive = planesCount;

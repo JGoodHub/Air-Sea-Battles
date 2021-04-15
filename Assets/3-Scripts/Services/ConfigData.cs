@@ -5,7 +5,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Config", menuName = "Create Data Instance/Config")]
 public class ConfigData : ScriptableObject
 {
-    public static ConfigData Instance;
+    private static ConfigData _instance;
+    public static ConfigData Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                //TODO -----> Check for multiple copies of the singleton and notify user if found
+                _instance = Resources.FindObjectsOfTypeAll<ConfigData>()[0];
+                return _instance;
+            }
+            else
+            {
+                return _instance;
+            }
+        }
+    }
+
+
 
     public string id;
     public int timeLimit;
@@ -19,11 +37,6 @@ public class ConfigData : ScriptableObject
 
     public void Initalise()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(this);
-
         if (resetScoresOnInit)
         {
             lastScore = 0;

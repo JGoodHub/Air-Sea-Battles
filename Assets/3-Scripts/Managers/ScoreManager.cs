@@ -22,7 +22,7 @@ public class ScoreManager : Singleton<ScoreManager>
         {
             planeBehaviour.OnPlaneDestroyed += (plane) =>
             {
-                IncrementScore(5);
+                IncrementScore(ConfigData.Instance.pointPerPlane);
             };
         }
 

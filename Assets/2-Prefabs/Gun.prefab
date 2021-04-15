@@ -128,7 +128,7 @@ MonoBehaviour:
   camera: {fileID: 0}
   relativePositionX: 0.25
   relativePositionY: 0.154
-  updateInEditor: 0
+  updateInEditor: 1
 --- !u!114 &7643520889167837441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,7 +156,7 @@ MonoBehaviour:
     angle: 30
     angleDirection: {x: 0, y: 0}
   bulletOriginOffset: 0.6
-  fireInterval: 0.15
+  fireInterval: 0.2
   OnBulletFired:
     m_PersistentCalls:
       m_Calls:
