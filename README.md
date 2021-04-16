@@ -16,6 +16,8 @@ In the main menu stages can be cycled using the Left and Right arrows keys, use 
 
 In game the angle of the turret is controlled by holding the Up arrow key to aim at a 30º angle and Down arrow key to aim at a 90º angle. Holding nothing will return the turret to 60º angle.
 
+THe escape key can be used to exit a level early.
+
 All keys are set in the Input Manager so can be changed easily within the editor is needed.
 
 ## Extra Assets
